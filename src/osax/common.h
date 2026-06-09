@@ -4,7 +4,7 @@
 #define SA_SOCKET_PATH_FMT "/tmp/yabai-sa_%s.socket"
 #define SA_SOCKET_BUFF_LEN 0x1000
 
-#define OSAX_VERSION                "2.1.29"
+#define OSAX_VERSION                "2.1.30"
 
 #define OSAX_ATTRIB_DOCK_SPACES     0x01
 #define OSAX_ATTRIB_DPPM            0x02

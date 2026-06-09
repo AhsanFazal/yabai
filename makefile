@@ -3,6 +3,8 @@ FRAMEWORK      = -framework Carbon -framework Cocoa -framework CoreServices -fra
 CLI_FLAGS      =
 BUILD_FLAGS    = -std=c11 -Wall -Wextra -g -O0 -fvisibility=hidden -mmacosx-version-min=11.0 -fno-objc-arc -arch x86_64 -arch arm64 -sectcreate __TEXT __info_plist $(INFO_PLIST)
 BUILD_PATH     = ./bin
+PREFIX        ?= /opt/homebrew
+YABAI_CERT    ?= yabai-cert
 DOC_PATH       = ./doc
 SCRIPT_PATH    = ./scripts
 ASSET_PATH     = ./assets
@@ -14,7 +16,7 @@ OSAX_PATH      = ./src/osax
 INFO_PLIST     = $(ASSET_PATH)/Info.plist
 BINS           = $(BUILD_PATH)/yabai
 
-.PHONY: all asan tsan install man icon archive publish sign clean-build clean
+.PHONY: all asan tsan install install-local uninstall-local man icon archive publish sign clean-build clean
 
 all: clean-build $(BINS)
 
@@ -26,6 +28,18 @@ tsan: clean-build $(BINS)
 
 install: BUILD_FLAGS=-std=c11 -Wall -Wextra -DNDEBUG -O3 -fvisibility=hidden -mmacosx-version-min=11.0 -fno-objc-arc -arch x86_64 -arch arm64 -sectcreate __TEXT __info_plist $(INFO_PLIST)
 install: clean-build $(BINS)
+
+# Build (release) and install from source so it behaves exactly like a Homebrew install:
+# copies the binary into PATH, codesigns it with a STABLE cert (so Accessibility grants
+# survive rebuilds), refreshes the passwordless --load-sa sudoers entry, loads the
+# scripting addition, and starts the service. Prompts for your password once (sudoers +
+# load-sa). Override location/identity: `make install-local PREFIX=/usr/local YABAI_CERT=my-cert`
+install-local: BUILD_FLAGS=-std=c11 -Wall -Wextra -DNDEBUG -O3 -fvisibility=hidden -mmacosx-version-min=11.0 -fno-objc-arc -arch x86_64 -arch arm64 -sectcreate __TEXT __info_plist $(INFO_PLIST)
+install-local: clean-build $(BINS)
+	PREFIX="$(PREFIX)" YABAI_CERT="$(YABAI_CERT)" $(SCRIPT_PATH)/install-local.sh
+
+uninstall-local:
+	PREFIX="$(PREFIX)" $(SCRIPT_PATH)/install-local.sh --uninstall
 
 $(OSAX_SRC): $(OSAX_PATH)/loader.m $(OSAX_PATH)/payload.m
 	xcrun clang $(OSAX_PATH)/payload.m -shared -fPIC -O3 -mmacosx-version-min=11.0 -arch x86_64 -arch arm64e -o $(OSAX_PATH)/payload $(FRAMEWORK_PATH) -framework SkyLight -framework Foundation -framework Carbon
