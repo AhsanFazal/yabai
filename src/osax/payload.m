@@ -240,7 +240,7 @@ static bool verify_os_version(NSOperatingSystemVersion os_version)
         return true; // Tahoe preview
     } else if (os_version.majorVersion == 27) {
 
-        NSLog(@"[yabai-sa] Detected Golden Gate Developer Beta 1 (27A5353q)... flagging 'macOSSequoia=true.'");
+        NSLog(@"[yabai-sa] Detected Golden Gate Developer Beta 1 (26A5353q)... flagging 'macOSSequoia=true.'");
         macOSSequoia = true;
         return true; // Golden Gate Developer Beta 1 (26A5353q)
     }
@@ -263,7 +263,7 @@ static bool verify_os_version(NSOperatingSystemVersion os_version)
         return true; // Tahoe preview
     } else if (os_version.majorVersion == 27) {
 
-        NSLog(@"[yabai-sa] Detected Golden Gate Developer Beta 1 (27A5353q)... flagging 'macOSSequoia=true.'");
+        NSLog(@"[yabai-sa] Detected Golden Gate Developer Beta 1 (26A5353q)... flagging 'macOSSequoia=true.'");
         macOSSequoia = true;
         return true; // Golden Gate Developer Beta 1 (26A5353q)
     }
