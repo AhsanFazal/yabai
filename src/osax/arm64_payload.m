@@ -44,7 +44,8 @@ uint64_t get_dppm_offset(NSOperatingSystemVersion os_version) {
 
 uint64_t get_fix_animation_offset(NSOperatingSystemVersion os_version) {
     if (os_version.majorVersion == 27) {
-        return 0x210000;
+        // Covers 27.0 (0x227508) through 27.2 (0x188fdc) on both arm64e slices.
+        return 0x170000;
     } else if (os_version.majorVersion == 26) {
         return 0x250000;
     } else if (os_version.majorVersion == 15) {
@@ -62,7 +63,8 @@ uint64_t get_fix_animation_offset(NSOperatingSystemVersion os_version) {
 
 uint64_t get_add_space_offset(NSOperatingSystemVersion os_version) {
     if (os_version.majorVersion == 27) {
-        return 0x210000;
+        // Covers 27.0 (0x228cbc) through 27.2 (0x18a750) on both arm64e slices.
+        return 0x170000;
     } else if (os_version.majorVersion == 26) {
         return 0x250000;
     } else if (os_version.majorVersion == 15) {
@@ -80,7 +82,8 @@ uint64_t get_add_space_offset(NSOperatingSystemVersion os_version) {
 
 uint64_t get_remove_space_offset(NSOperatingSystemVersion os_version) {
     if (os_version.majorVersion == 27) {
-        return 0x170000;
+        // Covers 27.0 (0x18b9a0) through 27.2 (0x12dbcc) on both arm64e slices.
+        return 0x120000;
     } else if (os_version.majorVersion == 26) {
         return 0x1e0000;
     } else if (os_version.majorVersion == 15) {
