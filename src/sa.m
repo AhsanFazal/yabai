@@ -272,13 +272,12 @@ static uint32_t scripting_addition_required_attrib(void)
     NSOperatingSystemVersion os_version = [[NSProcessInfo processInfo] operatingSystemVersion];
 
     //
-    // NOTE: macOS 27.2 removed DPDesktopPictureManager, the Dock-side moveSpace routine, and the
-    // CoreDockWindows message behind setFrontWindow, so there is nothing left in Dock to resolve.
-    // Moving spaces between displays is unavailable there; setFrontWindow is not used by yabai.
+    // NOTE: macOS 27.2 removed DPDesktopPictureManager, whose work the macOS 27 move_space handler
+    // now covers, and the CoreDockWindows message behind setFrontWindow, which yabai does not use.
     //
 
     if (os_version.majorVersion == 27 && os_version.minorVersion >= 2) {
-        return OSAX_ATTRIB_ALL & ~(OSAX_ATTRIB_DPPM | OSAX_ATTRIB_MOV_SPACE | OSAX_ATTRIB_SET_WINDOW);
+        return OSAX_ATTRIB_ALL & ~(OSAX_ATTRIB_DPPM | OSAX_ATTRIB_SET_WINDOW);
     }
 
     return OSAX_ATTRIB_ALL;
